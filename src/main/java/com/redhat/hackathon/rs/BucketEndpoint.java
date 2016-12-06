@@ -52,7 +52,7 @@ public class BucketEndpoint {
 		}
     }
     
-    @DELETE
+    @GET
     @Path("/get")
     @Produces({ "application/json" })
     public void get(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {

@@ -37,17 +37,23 @@ public class BucketService {
 	public boolean createBucket(String email) {
 		System.out.println("creating bucket for user " + email);
 		try {
-			getS3Client().createBucket(email.replace("@", "at"));
+			getS3Client().createBucket(formatEmail(email));
 		} catch (SdkClientException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-
+	
+	String formatEmail(String email) {
+		return email.replace("@", "at");
+	}
+	
+	
 	public boolean put(String bucketname, String key, String base64encoded) throws IOException {
 
 		final byte[] byteArray = Base64.getMimeDecoder().decode(base64encoded);
+		
 		File file = new File(key);
 		BufferedOutputStream writer = null;
 		try {
@@ -64,8 +70,10 @@ public class BucketService {
 		writer.close();
 
 		System.out.println("creating object " + file.getName());
-
-		getS3Client().putObject(new PutObjectRequest(bucketname, key, file));
+		System.out.println("key:"+key);
+		System.out.println("bucketname"+formatEmail(bucketname));
+		System.out.println("content"+new String(byteArray));
+		getS3Client().putObject(new PutObjectRequest(formatEmail(bucketname), key, file));
 
 		return true;
 	}

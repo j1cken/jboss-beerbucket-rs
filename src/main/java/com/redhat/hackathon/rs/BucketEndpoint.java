@@ -52,8 +52,17 @@ public class BucketEndpoint {
 		}
     }
     
+    @DELETE
+    @Path("/get")
+    @Produces({ "application/json" })
+    public void get(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
+    	
+			 bucketService.get(bucketname, key);
+		
+    }
     
-    @PUT
+    
+    @DELETE
     @Path("/delete")
     @Produces({ "application/json" })
     public void put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {

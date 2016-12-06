@@ -22,62 +22,62 @@ import java.util.Base64;
  * Created by torben on 12/6/16.
  */
 public class BucketService {
-	
-	  AmazonS3  s3client=null;
-	AmazonS3 getS3Client(){
-		if (s3client==null){
-	    AWSCredentials credentials = new BasicAWSCredentials(System.getenv("accessKey"), System.getenv("secretKey"));
-	      s3client = new AmazonS3Client(credentials);
+
+	AmazonS3 s3client = null;
+
+	AmazonS3 getS3Client() {
+		if (s3client == null) {
+			AWSCredentials credentials = new BasicAWSCredentials(System.getenv("accessKey"),
+					System.getenv("secretKey"));
+			s3client = new AmazonS3Client(credentials);
 		}
-	    return s3client;
+		return s3client;
 	}
-	
-    public boolean createBucket(String email) {
-        System.out.println("creating bucket for user " + email);
-        try {
-            getS3Client().createBucket(email.replace("@","at"));
-        } catch (SdkClientException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;   
-    }
-    public boolean put(String bucketname, String key, String base64encoded) throws IOException {
-       
-    	
-       final byte[] byteArray = Base64.getMimeDecoder().decode(base64encoded);	
-       File file = new File(key);
-       BufferedOutputStream writer = null;
+
+	public boolean createBucket(String email) {
+		System.out.println("creating bucket for user " + email);
+		try {
+			getS3Client().createBucket(email.replace("@", "at"));
+		} catch (SdkClientException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public boolean put(String bucketname, String key, String base64encoded) throws IOException {
+
+		final byte[] byteArray = Base64.getMimeDecoder().decode(base64encoded);
+		File file = new File(key);
+		BufferedOutputStream writer = null;
 		try {
 			writer = new BufferedOutputStream(new FileOutputStream(file));
 		} catch (FileNotFoundException e) {
+			
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-	
-           writer.write(byteArray);
-           writer.flush();
-           writer.close();
-    	
-    	System.out.println("creating object " + file.getName());
-        
-        getS3Client().putObject(new PutObjectRequest(bucketname, key, file ));
-      
-        return true;
-    }
-    
-    
-   
 
-    public String get(String bucketName, String key) {
-    	S3Object object=getS3Client().getObject(new GetObjectRequest(bucketName, key));
-        return null;
-    }
+		writer.write(byteArray);
+		writer.flush();
+		writer.close();
 
-    public boolean delete(String objectId) {
-        System.out.println("deleting object " + objectId);
-        return false;
-    }
+		System.out.println("creating object " + file.getName());
+
+		getS3Client().putObject(new PutObjectRequest(bucketname, key, file));
+
+		return true;
+	}
+
+	public String get(String bucketName, String key) {
+		S3Object s3Objec = getS3Client().getObject(new GetObjectRequest(bucketName, key));
+		return s3Objec.getObjectContent().toString();
+	}
+
+	public void delete(String bucketName, String key) {
+		System.out.println("deleting object " + key);
+		getS3Client().deleteObject(bucketName, key);
+	}
 
 }

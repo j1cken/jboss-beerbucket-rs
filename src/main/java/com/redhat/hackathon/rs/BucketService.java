@@ -85,7 +85,7 @@ public class BucketService {
 
 	public void delete(String bucketName, String key) {
 		System.out.println("deleting object " + key);
-		getS3Client().deleteObject(bucketName, key);
+		getS3Client().deleteObject(formatEmail(bucketName), key);
 	}
 
 }

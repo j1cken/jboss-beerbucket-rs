@@ -31,11 +31,11 @@ public class BucketEndpoint {
     @Inject
     BucketService bucketService;
 
-    @GET
-    @Path("/register")
+    @PUT
+    @Path("/createBucket")
     @Produces({ "application/json" })
     public String register(@DefaultValue("xyz@abc.com") @QueryParam("email") String email) {
-        return "{\"result\":\"" + bucketService.register(email) + "\"}";
+        return "{\"result\":\"" + bucketService.createBucket(email) + "\"}";
     }
 
 }

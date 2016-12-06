@@ -1,26 +1,40 @@
 package com.redhat.hackathon.rs;
 
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 /**
  * Created by torben on 12/6/16.
  */
 public class BucketService {
 
-    boolean register(String email) {
-        System.out.println("registering");
-        return false;
+    public boolean createBucket(String email) {
+        System.out.println("creating bucket for user " + email);
+        try {
+            AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("secretKey"), System.getProperty("accessKey"));
+            AmazonS3 s3client = new AmazonS3Client(credentials);
+            s3client.createBucket(email);
+        } catch (SdkClientException e) {
+            return false;
+        }
+
+        return true;
     }
 
-    String put(Object o) {
+    public String put(Object o) {
         System.out.println("creating object " + o);
         return null;
     }
 
-    Object get(String objectId) {
+    public Object get(String objectId) {
         System.out.println("retrieving object " + objectId);
         return null;
     }
 
-    boolean delete(String objectId) {
+    public boolean delete(String objectId) {
         System.out.println("deleting object " + objectId);
         return false;
     }

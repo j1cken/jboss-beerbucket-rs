@@ -16,16 +16,14 @@
  */
 package com.redhat.hackathon.rs;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.io.IOException;
 
 /**
  * A simple REST service which provides operations on S3 buckets.
  *
  * @author gbrey@redhat.com
- *
  */
 
 @Path("/")
@@ -35,39 +33,39 @@ public class BucketEndpoint {
 
     @PUT
     @Path("/register")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String register(@DefaultValue("xyz@abc.com") @QueryParam("email") String email) {
         return "{\"result\":\"" + bucketService.createBucket(email) + "\"}";
     }
 
     @PUT
     @Path("/put")
-    @Produces({ "application/json" })
-    public boolean put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key,  @QueryParam("base64") String base64){
-    	try {
-			return bucketService.put(bucketname, key, base64);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			return false;
-		}
+    @Produces({"application/json"})
+    public boolean put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key, @QueryParam("base64") String base64) {
+        try {
+            return bucketService.put(bucketname, key, base64);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            return false;
+        }
     }
-    
+
     @GET
     @Path("/get")
-    @Produces({ "application/json" })
-    public void get(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
-    	
-			 bucketService.get(bucketname, key);
-		
+    @Produces({"application/json"})
+    public String get(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
+
+        return bucketService.get(bucketname, key);
+
     }
-    
-    
+
+
     @DELETE
     @Path("/delete")
-    @Produces({ "application/json" })
-    public void put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
-    	
-			 bucketService.delete(bucketname, key);
-		
+    @Produces({"application/json"})
+    public void delete(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
+
+        bucketService.delete(bucketname, key);
+
     }
 }

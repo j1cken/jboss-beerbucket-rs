@@ -50,6 +50,15 @@ public class BucketEndpoint {
 			// TODO Auto-generated catch block
 			return false;
 		}
+    }
+    
+    
+    @PUT
+    @Path("/delete")
+    @Produces({ "application/json" })
+    public void put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key) {
     	
+			 bucketService.delete(bucketname, key);
+		
     }
 }

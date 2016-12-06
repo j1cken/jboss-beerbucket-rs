@@ -1,1 +1,1 @@
-MAVEN_MIRROR_URL=nexus.ci.svc.cluster.local
+#MAVEN_MIRROR_URL=nexus.ci.svc.cluster.local

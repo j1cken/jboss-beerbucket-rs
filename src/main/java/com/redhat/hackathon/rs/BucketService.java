@@ -14,7 +14,7 @@ public class BucketService {
     public boolean createBucket(String email) {
         System.out.println("creating bucket for user " + email);
         try {
-            AWSCredentials credentials = new BasicAWSCredentials(System.getenv("secretKey"), System.getenv("accessKey"));
+            AWSCredentials credentials = new BasicAWSCredentials(System.getenv("accessKey"), System.getenv("secretKey"));
             AmazonS3 s3client = new AmazonS3Client(credentials);
             s3client.createBucket(email.replace("@","at"));
         } catch (SdkClientException e) {

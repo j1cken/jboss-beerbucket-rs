@@ -14,7 +14,7 @@ public class BucketService {
     public boolean createBucket(String email) {
         System.out.println("creating bucket for user " + email);
         try {
-            AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("secretKey"), System.getProperty("accessKey"));
+            AWSCredentials credentials = new BasicAWSCredentials(System.getenv("secretKey"), System.getenv("accessKey"));
             AmazonS3 s3client = new AmazonS3Client(credentials);
             s3client.createBucket(email);
         } catch (SdkClientException e) {

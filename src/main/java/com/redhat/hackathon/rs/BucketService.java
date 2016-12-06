@@ -18,6 +18,7 @@ public class BucketService {
             AmazonS3 s3client = new AmazonS3Client(credentials);
             s3client.createBucket(email.replace("@","at"));
         } catch (SdkClientException e) {
+            e.printStackTrace();
             return false;
         }
 

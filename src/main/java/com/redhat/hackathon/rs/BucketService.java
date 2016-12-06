@@ -24,7 +24,7 @@ public class BucketService {
             AWSCredentials credentials = new BasicAWSCredentials(System.getenv("accessKey"),
                     System.getenv("secretKey"));
             s3client = new AmazonS3Client(credentials);
-            String ceph_backend = System.getenv("CEPH_SERVICE_HOST");
+            String ceph_backend = "http://" + System.getenv("CEPH_SERVICE_HOST") + ":" + System.getenv("CEPH_SERVICE_PORT");
             if (ceph_backend != null) {
                 s3client.setEndpoint(ceph_backend);
             }

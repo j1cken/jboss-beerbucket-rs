@@ -14,38 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.as.quickstarts.rshelloworld;
+package com.redhat.hackathon.rs;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 /**
- * A simple REST service which is able to say hello to someone using HelloService Please take a look at the web.xml where JAX-RS
- * is enabled
+ * A simple REST service which provides operations on S3 buckets.
  *
  * @author gbrey@redhat.com
  *
  */
 
 @Path("/")
-public class HelloWorld {
+public class BucketEndpoint {
     @Inject
-    HelloService helloService;
+    BucketService bucketService;
 
     @GET
-    @Path("/json")
+    @Path("/register")
     @Produces({ "application/json" })
-    public String getHelloWorldJSON() {
-        return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
-    }
-
-    @GET
-    @Path("/xml")
-    @Produces({ "application/xml" })
-    public String getHelloWorldXML() {
-        return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";
+    public String register(@DefaultValue("xyz@abc.com") @QueryParam("email") String email) {
+        return "{\"result\":\"" + bucketService.register(email) + "\"}";
     }
 
 }

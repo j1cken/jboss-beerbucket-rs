@@ -36,6 +36,7 @@ public class BucketService {
 
 	public boolean createBucket(String email) {
 		System.out.println("creating bucket for user " + email);
+		System.out.println("key:  "+formatEmail(email));
 		try {
 			getS3Client().createBucket(formatEmail(email));
 		} catch (SdkClientException e) {
@@ -79,12 +80,16 @@ public class BucketService {
 	}
 
 	public String get(String bucketName, String key) {
-		S3Object s3Objec = getS3Client().getObject(new GetObjectRequest(bucketName, key));
+		System.out.println("get object with key " + key);
+		System.out.println("bucketname:"+ formatEmail(bucketName));
+		S3Object s3Objec = getS3Client().getObject(new GetObjectRequest(formatEmail(bucketName), key));
 		return s3Objec.getObjectContent().toString();
 	}
 
 	public void delete(String bucketName, String key) {
-		System.out.println("deleting object " + key);
+		System.out.println("delete object with key " + key);
+		System.out.println("bucketname:"+ bucketName);
+	
 		getS3Client().deleteObject(formatEmail(bucketName), key);
 	}
 

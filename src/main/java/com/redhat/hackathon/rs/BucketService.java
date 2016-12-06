@@ -7,10 +7,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Base64;
 
 /**
@@ -81,14 +80,14 @@ public class BucketService {
     public String get(String bucketName, String key) {
         System.out.println("get object with key " + key);
         System.out.println("bucketname:" + formatEmail(bucketName));
-        S3Object s3Object = getS3Client().getObject(new GetObjectRequest(formatEmail(bucketName), key));
-        final byte[] byteArray = {};
-        try (S3ObjectInputStream objectContent = s3Object.getObjectContent()) {
-            objectContent.read(byteArray);
+        try {
+            File tmpFile = File.createTempFile("retrieve", "S3Object");
+            getS3Client().getObject(new GetObjectRequest(formatEmail(bucketName), key), tmpFile);
+            return Base64.getMimeEncoder().encodeToString(Files.readAllBytes(tmpFile.toPath()));
         } catch (IOException e) {
             e.printStackTrace();
+            return Base64.getMimeEncoder().encodeToString(new byte[]{});
         }
-        return Base64.getMimeEncoder().encodeToString(byteArray);
     }
 
     public void delete(String bucketName, String key) {

@@ -32,7 +32,7 @@ public class BucketEndpoint {
     BucketService bucketService;
 
     @PUT
-    @Path("/createBucket")
+    @Path("/register")
     @Produces({ "application/json" })
     public String register(@DefaultValue("xyz@abc.com") @QueryParam("email") String email) {
         return "{\"result\":\"" + bucketService.createBucket(email) + "\"}";

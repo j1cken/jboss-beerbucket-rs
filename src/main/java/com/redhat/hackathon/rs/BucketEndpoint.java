@@ -38,16 +38,16 @@ public class BucketEndpoint {
         return "{\"result\":\"" + bucketService.createBucket(email) + "\"}";
     }
 
-    @PUT
+    @POST
     @Path("/put")
-    @Produces({"application/json"})
-    public boolean put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key, @QueryParam("base64") String base64) {
-        try {
-            return bucketService.put(bucketname, key, base64);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            return false;
-        }
+    @Produces({ "application/json" })
+    public boolean put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key,  @FormParam("base64") String base64){
+    	try {
+			return bucketService.put(bucketname, key, base64);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
     }
 
     @GET

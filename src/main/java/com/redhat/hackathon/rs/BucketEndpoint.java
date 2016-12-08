@@ -44,7 +44,7 @@ public class BucketEndpoint {
     @Consumes({ "application/x-www-form-urlencoded"})
     public boolean put(@QueryParam("bucketName") String bucketname, @QueryParam("key") String key,  @FormParam("base64") String base64){
     	try {
-    		return bucketService.put(bucketname, key, base64);
+    		return bucketService.put(bucketname, key, base64.replace(" ", "+"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			return false;

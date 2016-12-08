@@ -84,7 +84,8 @@ public class BucketService {
             File tmpFile = File.createTempFile("retrieve", "S3Object");
             tmpFile.deleteOnExit();
             getS3Client().getObject(new GetObjectRequest(formatEmail(bucketName), key), tmpFile);
-            return Base64.getMimeEncoder().encodeToString(Files.readAllBytes(tmpFile.toPath()));
+            return Base64.getMimeEncoder().encodeToString(Files.readAllBytes(tmpFile.toPath())).getBytes("UTF-8").toString();
+        
         } catch (IOException e) {
             e.printStackTrace();
             return Base64.getMimeEncoder().encodeToString(new byte[]{});

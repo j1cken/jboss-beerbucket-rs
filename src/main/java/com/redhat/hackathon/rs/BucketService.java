@@ -9,7 +9,6 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Base64;
 
@@ -85,10 +84,7 @@ public class BucketService {
             File tmpFile = File.createTempFile("retrieve", "S3Object");
             tmpFile.deleteOnExit();
             getS3Client().getObject(new GetObjectRequest(formatEmail(bucketName), key), tmpFile);
-            String s = new String(Files.readAllBytes(tmpFile.toPath()),
-    				Charset.forName("UTF-8"));
-            return Base64.getMimeEncoder().encodeToString(s.getBytes());
-        
+            return new String(Base64.getMimeEncoder().encode(Files.readAllBytes(tmpFile.toPath())));
         } catch (IOException e) {
             e.printStackTrace();
             return Base64.getMimeEncoder().encodeToString(new byte[]{});
